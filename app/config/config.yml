@@ -83,5 +83,8 @@ hwi_oauth:
             
         google:
             type:                google
-            client_id:           <client_id>
-            client_secret:       <client_secret>
+            client_id:           78044515308-55q70tvgk56lihpteq34mbgrt3h44u97.apps.googleusercontent.com	
+            client_secret:       QNimmPeMWrfkeXlCUCjlmi_I
+            scope:               "email profile"
+            options:
+                csrf: true

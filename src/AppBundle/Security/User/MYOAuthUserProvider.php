@@ -16,7 +16,6 @@ class MYOAuthUserProvider extends OAuthUserProvider {
     
     public function __construct(EntityManager $entityManager) {
         $this->em               = $entityManager;
-//        $this->userCompany      = $userCompany;
     }
     
     public function loadUserByOAuthUserResponse(UserResponseInterface $response) {

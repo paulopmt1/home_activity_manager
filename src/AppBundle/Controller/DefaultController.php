@@ -96,4 +96,18 @@ class DefaultController extends Controller
         
         return new Response();
     }
+    
+    /**
+     * @Route("/deleteUserActivity/{userActivity}")
+     * @ParamConverter("userActivity", class="AppBundle:UserSystemMakeActivity")
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function deleteUserActivity(UserSystemMakeActivity $userActivity)
+    {
+        $em = $this->getDoctrine()->getManager();        
+        $em->remove($userActivity);
+        $em->flush();
+        
+        return new Response();
+    }
 }

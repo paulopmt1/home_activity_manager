@@ -31,7 +31,7 @@ HomeActivityManager = (function (pub) {
             pub.computeAccumulatedPoints();
         } else {
             
-            pub.renderUserActivity(initialActivity);
+//            pub.renderUserActivity(initialActivity);
         }
     };
     
@@ -78,6 +78,23 @@ HomeActivityManager = (function (pub) {
     };
     
     
+    pub.handleHoldAction = (function(){
+        var timeout = false;
+        
+        $('body').on('click', '.weather-forecast', function(){
+            var userActivityId = $(this).attr('element_id');
+            
+            if (confirm('Deseja mesmo excluir?')){
+                $.post('deleteUserActivity/' + userActivityId, function(){
+                    $('.user-activity[element_id="' + userActivityId + '"]').remove();
+                    pub.getUserActivities();
+                });
+            };
+        });
+        
+    });
+    
+    
     // Updates a weather card with the latest weather forecast. If the card
     // doesn't already exist, it's cloned from the template.
     pub.renderUserActivity = function (activity) {
@@ -91,6 +108,7 @@ HomeActivityManager = (function (pub) {
             card.querySelector('.activityName').textContent = activity.name;
             card.querySelector('.points').textContent = activity.punctuation + ' pontos';
             card.removeAttribute('hidden');
+            card.setAttribute('element_id', activity.id);
             pub.container.appendChild(card);
             pub.visibleCards[activity.id] = card;
         }
@@ -106,6 +124,7 @@ HomeActivityManager = (function (pub) {
         pub.isLoading = false;
     }
     
+    pub.handleHoldAction();
     pub.renderAllActivities();
     pub.getUserActivities();
     pub.getAllActivities();

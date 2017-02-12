@@ -36,6 +36,13 @@ class Activity
     private $punctuation = '1';
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_active", type="boolean", nullable=false)
+     */
+    private $isActive = '1';
+
+    /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=1000, nullable=true)
@@ -100,6 +107,30 @@ class Activity
     public function getPunctuation()
     {
         return $this->punctuation;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Activity
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 
     /**

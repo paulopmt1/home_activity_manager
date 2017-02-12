@@ -29,11 +29,18 @@ class UserSystem
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=45, nullable=true)
+     */
+    private $username;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="is_active", type="boolean", nullable=true)
      */
-    private $isActive;
+    private $isActive = '1';
 
     /**
      * @var string
@@ -76,6 +83,30 @@ class UserSystem
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return UserSystem
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
     }
 
     /**

@@ -23,6 +23,12 @@ Activity:
             options:
                 unsigned: false
                 default: '1'
+        isActive:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+            column: is_active
         description:
             type: string
             nullable: true

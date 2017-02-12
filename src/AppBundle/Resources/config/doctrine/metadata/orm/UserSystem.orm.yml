@@ -17,9 +17,17 @@ UserSystem:
             length: 45
             options:
                 fixed: false
+        username:
+            type: string
+            nullable: true
+            length: 45
+            options:
+                fixed: false
         isActive:
             type: boolean
             nullable: true
+            options:
+                default: '1'
             column: is_active
         email:
             type: string

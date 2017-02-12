@@ -426,3 +426,11 @@ footer{
     bottom: 0px;
     text-align: center;
 }
+
+.date-block{
+    padding: 7px;
+    background: #9e9d9d;
+    color: #fff;
+    font-size: 1em;
+    text-align: center;
+}

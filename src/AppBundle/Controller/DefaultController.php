@@ -40,12 +40,13 @@ class DefaultController extends Controller
         $userId = $this->getUser()->getId();
         
         $data = $em->createQuery(
-                "SELECT usma.id, a.name, a.punctuation "
+                "SELECT usma.id, a.name, a.punctuation, usma.createdAt "
                 . "FROM AppBundle:Activity a "
                 . "JOIN AppBundle:UserSystemMakeActivity usma "
                     . "WITH usma.activity = a "
                 . "JOIN usma.userSystem u "
-                . "WHERE u.id = :userSystemId")
+                . "WHERE u.id = :userSystemId "
+                . "ORDER BY usma.createdAt")
             ->setParameter('userSystemId', $userId)
             ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         

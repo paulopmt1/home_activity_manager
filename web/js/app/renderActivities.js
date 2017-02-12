@@ -19,13 +19,27 @@ HomeActivityManager = (function (pub) {
         created: '2016-07-22T01:00:00Z',
         punctuation: 10
     };
+    
+    var formatDate = function(date){
+        return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    }
 
     pub.renderAllActivities = function () {
         
         if (localStorage.allUserActivities) {
+            var lastDate = false;
+            
             allUserActivities = JSON.parse(localStorage.allUserActivities);
             allUserActivities.forEach(function (activity) {
-                pub.renderUserActivity(activity);
+                var newDate = formatDate(new Date(activity.createdAt.date));
+                
+                if (lastDate != newDate){
+                    lastDate = newDate;
+                    pub.renderUserActivity(activity, newDate);
+                }else{
+                    pub.renderUserActivity(activity, false);
+                }
+                
             });
             
             pub.computeAccumulatedPoints();
@@ -79,7 +93,6 @@ HomeActivityManager = (function (pub) {
     
     
     pub.handleHoldAction = (function(){
-        var timeout = false;
         
         $('body').on('click', '.weather-forecast', function(){
             var userActivityId = $(this).attr('element_id');
@@ -97,12 +110,14 @@ HomeActivityManager = (function (pub) {
     
     // Updates a weather card with the latest weather forecast. If the card
     // doesn't already exist, it's cloned from the template.
-    pub.renderUserActivity = function (activity) {
-        var dataLastUpdated = new Date(activity.created);
-
+    pub.renderUserActivity = function (activity, date) {
+        
         var card = pub.visibleCards[activity.id];
-
         if (!card) {
+            
+            if (date){
+                $(pub.container).append('<div class="date-block">Criado em ' + date + '</div>');
+            }
             card = pub.cardTemplate.cloneNode(true);
             card.classList.remove('cardTemplate');
             card.querySelector('.activityName').textContent = activity.name;

@@ -1,0 +1,61 @@
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="canonical" href="https://weather-pwa-sample.firebaseapp.com/final/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atividades em casa</title>
+  <link rel="stylesheet" type="text/css" href="css/inline.css">
+
+  <!-- TODO add manifest here -->
+  
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="header__title">HOJE</h1>
+    <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
+    <button id="butAdd" class="headerButton" aria-label="Add"></button>
+  </header>
+
+  <main class="main">
+    <div class="card cardTemplate weather-forecast" hidden>
+      <div class="city-key" hidden></div>
+      <div class="card-last-updated" hidden></div>
+      <div class="activityName"></div>
+      <div class="points"></div>
+      </div>
+    </div>
+  </main>
+
+  <div class="dialog-container">
+    <div class="dialog">
+      <div class="dialog-title">Adicionar nova tarefa</div>
+      <div class="dialog-body">
+        <select id="selectTaskToAdd">
+          <option value="2357536">Fazer almoço</option>
+          <option value="2367105">Lavar banheiro</option>
+          <option value="2379574">Lavar a louça</option>
+          <option value="2459115">Lavar roupa</option>
+          <option value="2475687">Estender roupa</option>
+        </select>
+      </div>
+      <div class="dialog-buttons">
+        <button id="butAddCity" class="button">Adicionar</button>
+        <button id="butAddCancel" class="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="loader">
+    <svg viewBox="0 0 32 32" width="32" height="32">
+      <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+    </svg>
+  </div>
+
+  <!-- Uncomment the line below when ready to test with fake data -->
+  <script src="js/app.js" async></script>
+
+</body>
+</html>

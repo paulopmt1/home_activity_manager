@@ -41,12 +41,25 @@ HomeActivityManager = (function (pub) {
     
     pub.getUserActivities = function () {
         
-        $.get('getActivities', function(activities){
+        $.get('getUserActivities', function(activities){
             disableLoader();
             
             allUserActivities = activities;
             pub.saveActivitiesLocal();
             pub.renderAllActivities();
+        }).fail(function(){
+            alert('o que vamos apresentar se o usuário não conseguiu nada?');
+        }); 
+    };
+    
+    pub.getAllActivities = function () {
+        
+        $.get('getAllActivities', function(activities){
+            
+            activities.forEach(function(item){
+                $('#selectTaskToAdd').append('<option value="' + item.id + '">' + item.name + '</option>');
+            });
+            
         }).fail(function(){
             alert('o que vamos apresentar se o usuário não conseguiu nada?');
         }); 
@@ -81,14 +94,9 @@ HomeActivityManager = (function (pub) {
         pub.isLoading = false;
     }
     
-    
-    
-    
-//    pub.renderUserActivity(initialActivity);
-    //    localStorage.selectedCities = "";
-//    pub.selectedCities = localStorage.selectedCities;
     pub.renderAllActivities();
     pub.getUserActivities();
+    pub.getAllActivities();
 
     return pub;
 })(HomeActivityManager || {});

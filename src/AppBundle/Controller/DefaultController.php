@@ -31,10 +31,10 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/getActivities")
+     * @Route("/getUserActivities")
      * @Security("is_granted('ROLE_USER')")
      */
-    public function getActivities(Request $request)
+    public function getUserActivities(Request $request)
     {
         $em = $this->getDoctrine()->getManager();        
         $userId = $this->getUser()->getId();
@@ -47,6 +47,26 @@ class DefaultController extends Controller
                 . "JOIN usma.userSystem u "
                 . "WHERE u.id = :userSystemId")
             ->setParameter('userSystemId', $userId)
+            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        
+        $jsonResponse = new JsonResponse();
+        $jsonResponse->setData($data);
+        
+        return $jsonResponse;
+    }
+    
+    /**
+     * @Route("/getAllActivities")
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function getAllActivities(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();        
+        $userId = $this->getUser()->getId();
+        
+        $data = $em->createQuery(
+                "SELECT a.id, a.name, a.punctuation, a.description "
+                . "FROM AppBundle:Activity a ")
             ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         
         $jsonResponse = new JsonResponse();

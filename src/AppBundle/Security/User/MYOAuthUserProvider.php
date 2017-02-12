@@ -12,7 +12,7 @@ use AppBundle\Entity\SocialLoginId;
 
 class MYOAuthUserProvider extends OAuthUserProvider {
     
-    private $em, $userCompany;
+    private $em;
     
     public function __construct(EntityManager $entityManager) {
         $this->em               = $entityManager;
@@ -35,22 +35,12 @@ class MYOAuthUserProvider extends OAuthUserProvider {
         }
         
         if ( ! in_array($serviceName, ['facebook','google'])){
-            throw new \Exception('O servi�o ' . $serviceName . ' n�o est� configurado ainda');
+            throw new \Exception('O serviço ' . $serviceName . ' não está configurado ainda');
         }
         
         if ( ! isset($responseData['name']) || ! isset($responseData['id'])){
-            throw new \Exception("Faltando parametros do facebook. S� recebi isso: " . json_encode($responseData));
+            throw new \Exception("Faltando parametros do facebook. Só recebi isso: " . json_encode($responseData));
         }
-    }
-    
-    private function createUserSystemForSocialMediaWithEmail($name, $useremail){
-        $repo = $this->em->getRepository("PmtVctUserBundle:User");
-        
-        $user = $this->userCompany->createUserSystem($name, $useremail, $useremail);
-        $this->userCompany->associateUserWithCompany($user, $repo->getSystemCompany(), true);
-        $this->em->flush();
-        
-        return $user;
     }
     
     private function createUserSystemForSocialMediaWithSocialId($socialNetwork, $socialUserId, $name){

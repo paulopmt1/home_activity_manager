@@ -25,23 +25,7 @@ class MYOAuthUserProvider extends OAuthUserProvider {
         
         $this->validateSocialData($responseData, $socialNetwork);
         
-        if (isset($responseData['email'])){
-            return $this->loadUserBySocialEmail($responseData['name'], $responseData['email']);
-        }
-        
         return $this->loadUserBySocialId($socialNetwork, $responseData['id'], $responseData['name']);
-    }
-    
-    private function loadUserBySocialEmail($name, $socialEmail){
-        $repo = $this->em->getRepository("PmtVctUserBundle:User");
-        $userSystem = $repo->loadUserByUsername($socialEmail);
-        
-        if ($userSystem){
-            return $userSystem;
-        }
-        
-        $newUserSystem = $this->createUserSystemForSocialMediaWithEmail($name, $socialEmail);
-        return $this->createUserInterfaceInstance($newUserSystem->getId(), $newUserSystem->getName());
     }
     
     private function validateSocialData($responseData, $serviceName){

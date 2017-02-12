@@ -42,6 +42,8 @@ HomeActivityManager = (function (pub) {
     pub.getUserActivities = function () {
         
         $.get('getActivities', function(activities){
+            disableLoader();
+            
             allUserActivities = activities;
             pub.saveActivitiesLocal();
             pub.renderAllActivities();
@@ -69,11 +71,15 @@ HomeActivityManager = (function (pub) {
         }
 
         if (pub.isLoading) {
-            pub.spinner.setAttribute('hidden', true);
-            pub.container.removeAttribute('hidden');
-            pub.isLoading = false;
+            disableLoader();
         }
     };
+    
+    var disableLoader = function(){
+        pub.spinner.setAttribute('hidden', true);
+        pub.container.removeAttribute('hidden');
+        pub.isLoading = false;
+    }
     
     
     

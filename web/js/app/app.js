@@ -1,8 +1,6 @@
 HomeActivityManager = (function (pub) {
     'use strict';
 
-    pub.selectedCities = [];
-        
     pub.addDialog = document.querySelector('.dialog-container');
     pub.daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     
@@ -24,12 +22,10 @@ HomeActivityManager = (function (pub) {
         var selected = select.options[select.selectedIndex];
         var key = selected.value;
         var label = selected.textContent;
-        if (!pub.selectedCities) {
-            pub.selectedCities = [];
-        }
-        pub.getForecast(key, label);
-        pub.selectedCities.push({id: key, activityName: label, points: Math.round(1 + Math.random() * 10)});
-        pub.saveSelectedCities();
+        
+        addActivity(key);
+        
+        pub.saveActivitiesLocal();
         pub.renderAllActivities();
         pub.toggleAddDialog(false);
     });
@@ -39,6 +35,12 @@ HomeActivityManager = (function (pub) {
         pub.toggleAddDialog(false);
     });
 
+
+    var addActivity = function(activityId){
+        $.post('addActivity/' + activityId, function(){
+            pub.getUserActivities();
+        });
+    };
 
     /*****************************************************************************
      *
@@ -67,16 +69,15 @@ HomeActivityManager = (function (pub) {
     
 
     if ('serviceWorker' in navigator) {
-        return;
-        window.addEventListener('load', function () {
-            navigator.serviceWorker.register('/sw.js').then(function (registration) {
-                // Registration was successful
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }).catch(function (err) {
-                // registration failed :(
-                console.log('ServiceWorker registration failed: ', err);
-            });
-        });
+//        window.addEventListener('load', function () {
+//            navigator.serviceWorker.register('/sw.js').then(function (registration) {
+//                // Registration was successful
+//                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+//            }).catch(function (err) {
+//                // registration failed :(
+//                console.log('ServiceWorker registration failed: ', err);
+//            });
+//        });
     }
 
 

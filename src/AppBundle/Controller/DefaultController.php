@@ -5,8 +5,12 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Entity\Activity;
+use AppBundle\Entity\UserSystemMakeActivity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class DefaultController extends Controller
 {
@@ -36,7 +40,7 @@ class DefaultController extends Controller
         $userId = $this->getUser()->getId();
         
         $data = $em->createQuery(
-                "SELECT a.id, a.name, a.punctuation "
+                "SELECT usma.id, a.name, a.punctuation "
                 . "FROM AppBundle:Activity a "
                 . "JOIN AppBundle:UserSystemMakeActivity usma "
                     . "WITH usma.activity = a "
@@ -49,5 +53,27 @@ class DefaultController extends Controller
         $jsonResponse->setData($data);
         
         return $jsonResponse;
+    }
+    
+    /**
+     * @Route("/addActivity/{activity}")
+     * @ParamConverter("activity", class="AppBundle:Activity")
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function addActivity(Activity $activity)
+    {
+        $em = $this->getDoctrine()->getManager();        
+        $userId = $this->getUser()->getId();
+        
+        $userSystem = $em->getReference('AppBundle:UserSystem', $userId);
+        
+        $usma = new UserSystemMakeActivity();
+        $usma->setActivity($activity);
+        $usma->setUserSystem($userSystem);
+        $usma->setCreatedAt(new \DateTime('now', new \DateTimeZone('America/Sao_Paulo')));
+        $em->persist($usma);
+        $em->flush();
+        
+        return new Response();
     }
 }

@@ -7,7 +7,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 
 /**
- * PmtVct\UserBundle\Entity\User
+ * AppBundle\Entity\User
  *
  * @ORM\Table(name="user_system")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")

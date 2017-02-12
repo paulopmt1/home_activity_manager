@@ -27,6 +27,8 @@ HomeActivityManager = (function (pub) {
             allUserActivities.forEach(function (activity) {
                 pub.renderUserActivity(activity);
             });
+            
+            pub.computeAccumulatedPoints();
         } else {
             
             pub.renderUserActivity(initialActivity);
@@ -63,6 +65,16 @@ HomeActivityManager = (function (pub) {
         }).fail(function(){
             alert('o que vamos apresentar se o usuário não conseguiu nada?');
         }); 
+    };
+    
+    pub.computeAccumulatedPoints = function(){
+        var allPoints = 0;
+        
+        allUserActivities.forEach(function(item){
+            allPoints += item.punctuation;
+        });
+        
+        $("#punctuation span").html(allPoints);
     };
     
     

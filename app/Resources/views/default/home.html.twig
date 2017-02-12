@@ -6,7 +6,7 @@
   <link rel="canonical" href="https://weather-pwa-sample.firebaseapp.com/final/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atividades em casa</title>
-  <link rel="stylesheet" type="text/css" href="css/inline.css">
+  <link rel="stylesheet" type="text/css" href="/css/inline.css">
 
   <!-- TODO add manifest here -->
   
@@ -55,7 +55,12 @@
   </div>
 
   <!-- Uncomment the line below when ready to test with fake data -->
-  <script src="js/app.js" async></script>
+  <script>
+      var HomeActivityManager = {};
+  </script>
+  <script src="/js/vendor/jquery-3.1.1.min.js" async></script>
+  <script src="/js/app/app.js" async></script>
+  <script src="/js/app/renderActivities.js" async></script>
 
 </body>
 </html>

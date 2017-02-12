@@ -10,11 +10,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/app", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function app(Request $request)
     {
         return $this->render('default/home.html.twig');
+    }
+    
+    /**
+     * @Route("/login")
+     */
+    public function login(Request $request)
+    {
+        return $this->render('default/login.html.twig');
     }
     
     /**

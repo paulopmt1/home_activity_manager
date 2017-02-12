@@ -1,0 +1,12 @@
+<form class="formulariologin" class="formulario" action="{{ path('login_check') }}" method="post">
+
+
+    <div class="top-social">
+        <a href="{{ hwi_oauth_login_url('facebook') }}" class="btn btn-block btn-social btn-facebook" onclick="ga('aurynTracker.send', 'event', {eventCategory: '_trackEvent', eventAction: 'click', eventLabel: 'btn-facebook', transport: 'beacon'});">
+            <span class="fa fa-facebook"></span>Entrar com Facebook
+        </a>
+        <a href="{{ hwi_oauth_login_url('google') }}" class="btn btn-block btn-social btn-google" onclick="ga('aurynTracker.send', 'event', {eventCategory: '_trackEvent', eventAction: 'click', eventLabel: 'btn-google', transport: 'beacon'});">
+            <span class="fa fa-google"></span>Entrar com Google
+        </a>
+    </div>
+</form>

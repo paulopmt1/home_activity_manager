@@ -67,7 +67,8 @@ class DefaultController extends Controller
         
         $data = $em->createQuery(
                 "SELECT a.id, a.name, a.punctuation, a.description "
-                . "FROM AppBundle:Activity a ")
+                . "FROM AppBundle:Activity a "
+                . "ORDER BY a.name")
             ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         
         $jsonResponse = new JsonResponse();

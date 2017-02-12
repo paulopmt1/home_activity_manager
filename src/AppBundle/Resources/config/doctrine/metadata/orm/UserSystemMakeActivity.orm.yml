@@ -1,0 +1,46 @@
+UserSystemMakeActivity:
+    type: entity
+    table: user_system_make_activity
+    indexes:
+        fk_user_system_make_activity_user_system_idx:
+            columns:
+                - user_system_id
+        fk_user_system_make_activity_activity1_idx:
+            columns:
+                - activity_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+    manyToOne:
+        activity:
+            targetEntity: Activity
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                activity_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        userSystem:
+            targetEntity: UserSystem
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_system_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

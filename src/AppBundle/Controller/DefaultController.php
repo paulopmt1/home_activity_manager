@@ -18,7 +18,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/login")
+     * @Route("/customLogin")
      */
     public function login(Request $request)
     {
@@ -32,6 +32,8 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $userId = 1;
+        
+        $userIdNew = $this->getUser()->getId();
         
         $data = $em->createQuery(
                 "SELECT a.id, a.name, a.punctuation "

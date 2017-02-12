@@ -17,4 +17,14 @@ UserSystem:
             length: 45
             options:
                 fixed: false
+        isActive:
+            type: boolean
+            nullable: true
+            column: is_active
+        email:
+            type: string
+            nullable: true
+            length: 45
+            options:
+                fixed: false
     lifecycleCallbacks: {  }

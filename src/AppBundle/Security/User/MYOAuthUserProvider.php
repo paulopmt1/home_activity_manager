@@ -6,6 +6,9 @@ use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\Security\Core\Exception\AccountNotLinkedException;
+use AppBundle\Entity\User;
+use AppBundle\Entity\UserSystem;
+use AppBundle\Entity\SocialLoginId;
 
 class MYOAuthUserProvider extends OAuthUserProvider {
     
@@ -18,28 +21,28 @@ class MYOAuthUserProvider extends OAuthUserProvider {
     
     public function loadUserByOAuthUserResponse(UserResponseInterface $response) {
 
-//        $responseData = $response->getResponse();
-//        $socialNetwork = $response->getResourceOwner()->getName();
-//        
-//        $this->validateSocialData($responseData, $socialNetwork);
-//        
-//        if (isset($responseData['email'])){
-//            return $this->loadUserBySocialEmail($responseData['name'], $responseData['email']);
-//        }
-//        
-//        return $this->loadUserBySocialId($socialNetwork, $responseData['id'], $responseData['name']);
+        $responseData = $response->getResponse();
+        $socialNetwork = $response->getResourceOwner()->getName();
+        
+        $this->validateSocialData($responseData, $socialNetwork);
+        
+        if (isset($responseData['email'])){
+            return $this->loadUserBySocialEmail($responseData['name'], $responseData['email']);
+        }
+        
+        return $this->loadUserBySocialId($socialNetwork, $responseData['id'], $responseData['name']);
     }
     
     private function loadUserBySocialEmail($name, $socialEmail){
-//        $repo = $this->em->getRepository("PmtVctUserBundle:User");
-//        $userSystem = $repo->loadUserByUsername($socialEmail);
-//        
-//        if ($userSystem){
-//            return $userSystem;
-//        }
-//        
-//        $newUserSystem = $this->createUserSystemForSocialMediaWithEmail($name, $socialEmail);
-//        return $this->createUserInterfaceInstance($newUserSystem->getId(), $newUserSystem->getName());
+        $repo = $this->em->getRepository("PmtVctUserBundle:User");
+        $userSystem = $repo->loadUserByUsername($socialEmail);
+        
+        if ($userSystem){
+            return $userSystem;
+        }
+        
+        $newUserSystem = $this->createUserSystemForSocialMediaWithEmail($name, $socialEmail);
+        return $this->createUserInterfaceInstance($newUserSystem->getId(), $newUserSystem->getName());
     }
     
     private function validateSocialData($responseData, $serviceName){
@@ -68,25 +71,25 @@ class MYOAuthUserProvider extends OAuthUserProvider {
     }
     
     private function createUserSystemForSocialMediaWithSocialId($socialNetwork, $socialUserId, $name){
-//        $repo = $this->em->getRepository("PmtVctUserBundle:User");
-//        
-//        $user = $this->userCompany->createUserSystem($name, 'socialuser', 'socialuser');
-//        $this->userCompany->associateUserWithCompany($user, $repo->getSystemCompany(), true);
-//        
-//        $socialLoginId = new SocialLoginId();
-//        $socialLoginId->setSocialNetwork($socialNetwork);
-//        $socialLoginId->setSocialUserId($socialUserId);
-//        $socialLoginId->setUserSystem($user);
-//        
-//        $this->em->persist($socialLoginId);
-//        $this->em->flush();
-//        
-//        return $user;
+        $user = new UserSystem();
+        $user->setName($name);
+        $this->em->persist($user);
+        
+        $socialLoginId = new SocialLoginId();
+        $socialLoginId->setSocialNetwork($socialNetwork);
+        $socialLoginId->setSocialUserId($socialUserId);
+        $socialLoginId->setUserSystem($user);
+        
+        $this->em->persist($socialLoginId);
+        
+        $this->em->flush();
+        
+        return $user;
     }
     
     private function loadUserBySocialId($socialNetwork, $socialUserId, $name){
         
-        $socialUser = $this->em->getRepository("PmtVctPhotoBookBundle:SocialLoginId")->findOneBy([
+        $socialUser = $this->em->getRepository("AppBundle:SocialLoginId")->findOneBy([
             'socialNetwork' => $socialNetwork,
             'socialUserId'  => $socialUserId
         ]);
@@ -105,7 +108,7 @@ class MYOAuthUserProvider extends OAuthUserProvider {
         $user = new User();
         $user->setIsActive(true);
         $user->setName($name);
-        $user->setAurynId($aurynId);
+        $user->setUserId($aurynId);
         
         return $user;
     }
